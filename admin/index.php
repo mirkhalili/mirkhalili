@@ -14,6 +14,11 @@ $latest = q_all('SELECT * FROM messages ORDER BY created_at DESC, id DESC LIMIT 
 $recent = q_all('SELECT p.*, c.name AS category_name FROM projects p LEFT JOIN categories c ON c.id = p.category_id ORDER BY p.updated_at DESC LIMIT 5');
 ?>
 
+<div class="mb-6 flex flex-wrap gap-3">
+  <a class="btn btn-primary" href="/admin/settings.php#homepage-content">ویرایش محتوای صفحهٔ نخست</a>
+  <a class="btn" href="/admin/projects.php">مدیریت نمونه‌کارها</a>
+</div>
+
 <div class="grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
   <?php foreach ($counts as $label => $value): ?>
     <div class="bg-paper p-6">

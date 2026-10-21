@@ -34,6 +34,19 @@
   });
 
   document.addEventListener('click', function (e) {
+    var format = e.target.closest ? e.target.closest('[data-format]') : null;
+    if (format) {
+      var editor = format.closest('label').querySelector('[data-rich-editor]');
+      if (!editor) return;
+      var start = editor.selectionStart;
+      var end = editor.selectionEnd;
+      var marker = format.getAttribute('data-format');
+      var selected = editor.value.slice(start, end) || 'متن';
+      editor.setRangeText(marker + selected + marker, start, end, 'select');
+      editor.focus();
+      return;
+    }
+
     var del = e.target.closest ? e.target.closest('.rep-del') : null;
     if (!del) return;
     var row = del.closest('.rep-row');

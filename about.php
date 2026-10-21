@@ -23,10 +23,10 @@ $skills = skills_all();
       <p class="mono-label mt-3 text-soft">استودیو — <?= e(setting('city')) ?></p>
     </div>
     <div class="space-y-6 leading-9 text-soft md:col-span-6 md:col-start-7 md:text-lg md:leading-10">
-      <p class="text-xl font-medium text-ink md:text-2xl md:leading-[2.6rem]" data-reveal><?= e(setting('about_intro')) ?></p>
-      <p data-reveal><?= e(setting('about_p1')) ?></p>
-      <p data-reveal><?= e(setting('about_p2')) ?></p>
-      <p data-reveal><?= e(setting('about_p3')) ?></p>
+      <div class="text-xl font-medium text-ink md:text-2xl md:leading-[2.6rem]" data-reveal><?= rich_text(setting('about_intro')) ?></div>
+      <div data-reveal><?= rich_text(setting('about_p1')) ?></div>
+      <div data-reveal><?= rich_text(setting('about_p2')) ?></div>
+      <div data-reveal><?= rich_text(setting('about_p3')) ?></div>
     </div>
   </div>
 </section>
@@ -45,7 +45,7 @@ $skills = skills_all();
 <section class="mx-auto max-w-7xl px-5 py-20 md:px-10 md:py-28">
   <div class="mb-10 md:mb-14" data-reveal>
     <p class="mono-label mb-3 flex items-center gap-2 text-soft"><span class="inline-block size-2 rotate-45 bg-accent"></span>مسیر حرفه‌ای</p>
-    <h2 class="text-3xl font-black tracking-tight md:text-5xl">از آژانس تا استودیوی مستقل</h2>
+    <h2 class="text-3xl font-black tracking-tight md:text-5xl"><?= e(setting('about_path_title', 'از آژانس تا استودیوی مستقل')) ?></h2>
   </div>
   <ol class="divide-y divide-line border-y border-line">
     <?php foreach ($timeline as $i => $t): ?>
@@ -65,19 +65,19 @@ $skills = skills_all();
     <div>
       <div class="mb-10" data-reveal>
         <p class="mono-label mb-3 flex items-center gap-2 text-soft"><span class="inline-block size-2 rotate-45 bg-accent"></span>ابزارها</p>
-        <h2 class="text-3xl font-black tracking-tight md:text-4xl">جعبه‌ابزار روزانه</h2>
+        <h2 class="text-3xl font-black tracking-tight md:text-4xl"><?= e(setting('about_tools_title', 'جعبه‌ابزار روزانه')) ?></h2>
       </div>
       <ul class="flex flex-wrap gap-2" data-reveal>
         <?php foreach ($skills as $t): ?>
           <li class="border border-line bg-paper px-4 py-2 font-mono text-sm" dir="ltr"><?= e($t['name']) ?></li>
         <?php endforeach; ?>
       </ul>
-      <p class="mt-8 leading-8 text-soft" data-reveal>اما ابزار واقعی من این‌هاست: یک خط‌کش فلزی، کاغذ پوستی، مرکب چین و کلی کلیپ برداشتی از دیوار تهران.</p>
+      <div class="mt-8 leading-8 text-soft" data-reveal><?= rich_text(setting('about_tools_note', 'اما ابزار واقعی من این‌هاست: یک خط‌کش فلزی، کاغذ پوستی، مرکب چین و کلی کلیپ برداشتی از دیوار تهران.')) ?></div>
     </div>
     <div>
       <div class="mb-10" data-reveal>
         <p class="mono-label mb-3 flex items-center gap-2 text-soft"><span class="inline-block size-2 rotate-45 bg-accent"></span>جوایز</p>
-        <h2 class="text-3xl font-black tracking-tight md:text-4xl">تأییدهای بیرونی</h2>
+        <h2 class="text-3xl font-black tracking-tight md:text-4xl"><?= e(setting('about_awards_title', 'تأییدهای بیرونی')) ?></h2>
       </div>
       <ul class="divide-y divide-line border-y border-line">
         <?php foreach ($awards as $i => $a): ?>
