@@ -41,8 +41,23 @@ function db(): PDO
 /** اجرای کوئری آماده‌شده و برگرداندن statement */
 function q(string $sql, array $params = []): PDOStatement
 {
-    $st = db()->prepare($sql);
+    $pdo = db();
+    $st = $pdo->prepare($sql);
     $st->execute($params);
+    // Capture successful admin-side mutations without retaining submitted values or secrets.
+    if ($st->rowCount() > 0 && session_status() === PHP_SESSION_ACTIVE && !empty($_SESSION['admin_id'])
+        && str_starts_with((string) ($_SERVER['SCRIPT_NAME'] ?? ''), '/admin/')
+        && preg_match('/^\s*(INSERT\s+INTO|UPDATE|DELETE\s+FROM)\s+`?([a-zA-Z0-9_]+)`?/i', $sql, $match)
+        && !in_array(strtolower($match[2]), ['admin_activity', 'site_visits'], true)) {
+        try {
+            $op = strtoupper($match[1]);
+            $action = str_starts_with($op, 'INSERT') ? 'insert' : (str_starts_with($op, 'UPDATE') ? 'update' : 'delete');
+            $log = $pdo->prepare('INSERT INTO admin_activity (actor_id, action, entity_type, description) VALUES (?, ?, ?, ?)');
+            $log->execute([(int) $_SESSION['admin_id'], $action, strtolower($match[2]), 'عملیات ' . $action . ' روی ' . strtolower($match[2])]);
+        } catch (Throwable $exception) {
+            error_log('Admin activity log failed: ' . $exception->getMessage());
+        }
+    }
     return $st;
 }
 

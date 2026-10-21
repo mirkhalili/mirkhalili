@@ -3,6 +3,7 @@ declare(strict_types=1);
 $admin_title = 'پروژه‌ها';
 $admin_active = 'projects';
 require_once __DIR__ . '/inc/auth.php';
+admin_require_module('projects', ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST');
 
 /* ---------------- اکشن‌ها ---------------- */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

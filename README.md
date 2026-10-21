@@ -2,7 +2,7 @@
 
 وب‌سایت شخصی و پورتفولیوی **میر خلیلی**، طراح گرافیک و هویت بصری — سبک **مینیمال تایپوگرافیک سوئیسی**، کاملاً **فارسی و راست‌به‌چپ (RTL)**.
 
-> **نگارش جاری: 010.2.5.2** (طرح QAVNS) — تاریخچه: [`Docs/CHANGELOG.md`](Docs/CHANGELOG.md) · قواعد نگارش‌گذاری: [`Docs/VERSIONING.md`](Docs/VERSIONING.md) · مستندات کامل: [`Docs/README.md`](Docs/README.md)
+> **نگارش جاری: 011.2.6.0** (طرح QAVNS) — تاریخچه: [`Docs/CHANGELOG.md`](Docs/CHANGELOG.md) · قواعد نگارش‌گذاری: [`Docs/VERSIONING.md`](Docs/VERSIONING.md) · مستندات کامل: [`Docs/README.md`](Docs/README.md)
 >
 > **این ریپو اکنون تک‌نسخه‌ای CMS است.** ریشهٔ ریپو دقیقاً محتوای `public_html` هاست است — بدون پوشهٔ واسط `cpanel-site/` و بدون نسخهٔ استاتیک Astro.
 
@@ -47,8 +47,9 @@
    ```bash
    cp inc/config.sample.php inc/config.php
    ```
-5. **ساخت اولین مدیر:** هش رمز را با PHP بسازید و فایل `database/010.2.5.2-create-admin.sql` را در phpMyAdmin → SQL طبق راهنمای فایل اجرا کنید؛ این روش به فرم setup یا کلید config نیاز ندارد.
-6. **ورود:** `https://yourdomain.com/admin/login.php` → با نام کاربری/رمز ساخته‌شده وارد شوید
+5. **ارتقا از 010.2.5.2:** پیش از تعویض فایل‌ها، بکاپ بگیرید و migration یک‌بارهٔ `database/011.2.6.0-admin-expansion.sql` را روی دیتابیس موجود اجرا کنید. مدیرهای قبلی مدیر فعال باقی می‌مانند.
+6. **نصب تازه:** پس از ساخت دیتابیس مطابق `schema.sql`، برای ساخت مدیر از `database/010.2.5.2-create-admin.sql` استفاده کنید.
+7. **ورود:** `https://yourdomain.com/admin/login.php` → با نام کاربری/رمز ساخته‌شده وارد شوید
 
 راهنمای کامل با اسکرین‌شات ذهنی و نکات `.htaccess` در [`Docs/06-install-deploy.md`](Docs/06-install-deploy.md) آمده است.
 
@@ -98,7 +99,7 @@ npm run build:cms-css
 
 شناسه: `e0RSN.G.FF.CCC` — سه رقم با پیش‌صفر برای RSN. تاریخچه و آیین نشر در [`Docs/VERSIONING.md`](Docs/VERSIONING.md).
 
-- نگارش جاری `010.2.5.2` — اصلاح collations فایل SQL ساخت مدیر (#1267)
+- نگارش جاری `011.2.6.0` — نقش‌های دسترسی پنل، پروفایل، SEO، رویدادنگاری و آمار بازدید؛ migration در `database/011.2.6.0-admin-expansion.sql`
 - پس از هر نشر، محتوای آن نگارش هرگز تغییر نمی‌کند؛ هر تغییری در نگارش بعدی.
 
 ## مجوز و تماس

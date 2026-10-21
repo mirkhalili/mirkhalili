@@ -1,7 +1,7 @@
 -- =====================================================================
---  اسکیمای دیتابیس — پورتفولیوی میر خلیلی (نسخهٔ CMS با پنل ادمین)
+--  اسکیمای دیتابیس — میر خلیلی CMS (QAVNS 011.2.6.0)
 --  موتور: MySQL / MariaDB — charset: utf8mb4 (پشتیبانی کامل فارسی)
---  اجرا: از phpMyAdmin (Import) یا install.php
+--  اجرا: برای نصب تازه از phpMyAdmin (Import)؛ برای ارتقا migration نسخه‌دار را اجرا کنید
 -- =====================================================================
 
 SET NAMES utf8mb4;
@@ -13,6 +13,10 @@ CREATE TABLE IF NOT EXISTS users (
   username VARCHAR(50) NOT NULL,
   password_hash VARCHAR(255) NOT NULL,
   display_name VARCHAR(100) NOT NULL DEFAULT '',
+  email VARCHAR(180) NOT NULL DEFAULT '',
+  role ENUM('admin','editor','viewer') NOT NULL DEFAULT 'admin',
+  is_active TINYINT(1) NOT NULL DEFAULT 1,
+  last_login TIMESTAMP NULL DEFAULT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   UNIQUE KEY uq_users_username (username)
@@ -199,6 +203,34 @@ CREATE TABLE IF NOT EXISTS messages (
   is_read TINYINT(1) NOT NULL DEFAULT 0,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- ---------- رویدادنگاری عملیات پنل ----------
+CREATE TABLE IF NOT EXISTS admin_activity (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  actor_id INT UNSIGNED NULL,
+  action VARCHAR(40) NOT NULL,
+  entity_type VARCHAR(50) NOT NULL,
+  entity_id BIGINT UNSIGNED NULL,
+  description VARCHAR(255) NOT NULL DEFAULT '',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_admin_activity_created (created_at),
+  KEY idx_admin_activity_actor (actor_id),
+  CONSTRAINT fk_admin_activity_actor FOREIGN KEY (actor_id)
+    REFERENCES users (id) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ---------- بازدیدهای ناشناس صفحات عمومی (بدون IP و user-agent) ----------
+CREATE TABLE IF NOT EXISTS site_visits (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  path VARCHAR(255) NOT NULL,
+  referrer_host VARCHAR(190) NOT NULL DEFAULT '',
+  visited_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_site_visits_date (visited_at),
+  KEY idx_site_visits_path_date (path, visited_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -3,6 +3,7 @@ declare(strict_types=1);
 $admin_title = 'رزومه، جوایز، آمار و مهارت‌ها';
 $admin_active = 'resume';
 require_once __DIR__ . '/inc/auth.php';
+admin_require_module('resume', ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST');
 
 /** بخش‌های «حذف همه + درج مجدد» */
 $sections = [
