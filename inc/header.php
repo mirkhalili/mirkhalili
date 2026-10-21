@@ -36,7 +36,7 @@ $nav = [
 <link rel="canonical" href="<?= e($canonical) ?>">
 <meta name="theme-color" content="#f4f1ea">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/vazirmatn-var.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="<?= e(asset('assets/fonts/vazirmatn-var.woff2')) ?>" crossorigin>
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fa_IR">
 <meta property="og:site_name" content="<?= e($site_name) ?>">

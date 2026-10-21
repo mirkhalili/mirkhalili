@@ -23,7 +23,7 @@ $marquee = pipe_list(setting('marquee'));
     <p class="mono-label text-soft text-end" dir="ltr"><span data-clock>--:--:--</span> TEH</p>
   </div>
 
-  <h1 class="text-[13vw] leading-[1.05] font-black tracking-tight md:text-[7.5vw]">
+  <h1 class="text-[6.5vw] leading-[1.05] font-black tracking-tight md:text-[3.75vw]">
     <span class="mask-line"><span style="--line-delay:100ms"><?= e(setting('hero_l1')) ?></span></span>
     <span class="mask-line"><span style="--line-delay:240ms"><?= e(setting('hero_l2')) ?> <span class="text-accent"><?= e(setting('hero_accent', 'مانده')) ?></span></span></span>
     <span class="mask-line"><span style="--line-delay:380ms"><?= e(setting('hero_l3')) ?></span></span>
@@ -76,7 +76,7 @@ $marquee = pipe_list(setting('marquee'));
     <ul class="divide-y divide-line border-y border-line">
       <?php foreach ($projects as $i => $p): ?>
         <li>
-          <a href="/work/<?= e($p['slug']) ?>" class="work-row group grid grid-cols-[auto_1fr_auto] items-baseline gap-4 py-6 md:grid-cols-[4rem_1fr_auto_auto] md:gap-8 md:py-8" data-cover="<?= e($p['cover']) ?>" data-reveal style="--reveal-delay:<?= $i * 70 ?>ms">
+          <a href="/work/<?= e($p['slug']) ?>" class="work-row group grid grid-cols-[auto_1fr_auto] items-baseline gap-4 py-4 md:grid-cols-[4rem_1fr_auto_auto] md:gap-8 md:py-5" data-cover="<?= e($p['cover']) ?>" data-reveal style="--reveal-delay:<?= $i * 70 ?>ms">
             <span class="mono-label pt-2 text-soft"><?= fa_index($i + 1) ?></span>
             <span class="min-w-0">
               <span class="work-title block text-2xl font-extrabold tracking-tight md:text-4xl lg:text-5xl"><?= e($p['title']) ?></span>
@@ -138,7 +138,7 @@ $marquee = pipe_list(setting('marquee'));
   <ul class="divide-y divide-line border-y border-line">
     <?php foreach ($services as $i => $s): ?>
       <li data-reveal style="--reveal-delay:<?= $i * 60 ?>ms">
-        <a href="/services" class="group grid grid-cols-[auto_1fr] items-baseline gap-5 py-6 md:grid-cols-[4rem_1fr_auto] md:gap-8">
+        <a href="/services" class="group grid grid-cols-[auto_1fr] items-baseline gap-5 py-4 md:grid-cols-[4rem_1fr_auto] md:gap-8">
           <span class="mono-label text-soft"><?= fa_index($i + 1) ?></span>
           <span class="text-xl font-extrabold tracking-tight transition-colors group-hover:text-accent md:text-3xl"><?= e($s['title']) ?></span>
           <span class="mono-label col-start-2 text-soft md:col-start-3" dir="ltr"><?= e($s['title_en']) ?></span>

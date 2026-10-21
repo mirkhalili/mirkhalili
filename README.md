@@ -2,7 +2,7 @@
 
 وب‌سایت شخصی و پورتفولیوی **میر خلیلی**، طراح گرافیک و هویت بصری — سبک **مینیمال تایپوگرافیک سوئیسی**، کاملاً **فارسی و راست‌به‌چپ (RTL)**.
 
-> **نگارش جاری: 007.2.3.0** (طرح QAVNS) — تاریخچه: [`Docs/CHANGELOG.md`](Docs/CHANGELOG.md) · قواعد نگارش‌گذاری: [`Docs/VERSIONING.md`](Docs/VERSIONING.md) · مستندات کامل: [`Docs/README.md`](Docs/README.md)
+> **نگارش جاری: 008.2.4.1** (طرح QAVNS) — تاریخچه: [`Docs/CHANGELOG.md`](Docs/CHANGELOG.md) · قواعد نگارش‌گذاری: [`Docs/VERSIONING.md`](Docs/VERSIONING.md) · مستندات کامل: [`Docs/README.md`](Docs/README.md)
 >
 > **این ریپو اکنون تک‌نسخه‌ای CMS است.** ریشهٔ ریپو دقیقاً محتوای `public_html` هاست است — بدون پوشهٔ واسط `cpanel-site/` و بدون نسخهٔ استاتیک Astro.
 
@@ -19,10 +19,11 @@
 ```
 .
 ├── index.php / work.php / project.php / about.php / services.php / contact.php / 404.php
+├── about/ work/ services/ contact/ ← fallback برای مسیرهای اصلی
 ├── sitemap.php / robots.php / schema.sql / .htaccess / favicon.svg
 ├── inc/               ← هسته: db, helpers, data, header, footer (با .htaccess داخلی مسدود)
 │   └── config.sample.php  ← نمونهٔ پیکربندی (کپی به config.php)
-├── admin/             ← پنل ادمین (login, index, projects, categories, services, resume, settings, messages)
+├── admin/             ← پنل ادمین (از جمله setup.php یک‌بارمصرف برای اولین مدیر)
 ├── assets/
 │   ├── css/style.css  ← CSS کامپایل‌شده (بدون بیلد روی سرور)
 │   ├── css/src/input.css ← سورس Tailwind (برای بازسازی اختیاری)
@@ -46,13 +47,7 @@
    ```bash
    cp inc/config.sample.php inc/config.php
    ```
-5. **ساخت ادمین:** در phpMyAdmin تب `SQL` کوئری زیر را اجرا کنید (هش را از قبل تولید کنید):
-   ```sql
-   -- تولید هش در لوکال:
-   -- php -r "echo password_hash('رمز_قوی_اینجا', PASSWORD_DEFAULT);"
-   INSERT INTO users (username, password_hash, display_name)
-   VALUES ('admin', '$2y$10$...هش_تولیدشده...', 'مدیر سایت');
-   ```
+5. **ساخت اولین مدیر:** کلید ۶۴رقمی تصادفی تولید کنید (`php -r "echo bin2hex(random_bytes(32));"`)، آن را در `admin_setup_key` فایل `inc/config.php` بگذارید و صفحهٔ `/admin/setup.php` را باز کنید. مدیر و رمز دلخواه را در فرم بسازید؛ پس از آن کلید را از config حذف کنید.
 6. **ورود:** `https://yourdomain.com/admin/login.php` → با نام کاربری/رمز ساخته‌شده وارد شوید
 
 راهنمای کامل با اسکرین‌شات ذهنی و نکات `.htaccess` در [`Docs/06-install-deploy.md`](Docs/06-install-deploy.md) آمده است.
@@ -103,7 +98,7 @@ npm run build:cms-css
 
 شناسه: `e0RSN.G.FF.CCC` — سه رقم با پیش‌صفر برای RSN. تاریخچه و آیین نشر در [`Docs/VERSIONING.md`](Docs/VERSIONING.md).
 
-- نگارش جاری `007.2.3.0` — فقط-قابلیت (مدیریت/قالب‌بندی محتوا، جست‌وجوی نمونه‌کار و تکمیل پنل)
+- نگارش جاری `008.2.4.1` — ترکیبی: ساخت مدیر امن، fallback مسیرها، فونت فارسی محلی و فشرده‌سازی فاصله‌ها
 - پس از هر نشر، محتوای آن نگارش هرگز تغییر نمی‌کند؛ هر تغییری در نگارش بعدی.
 
 ## مجوز و تماس

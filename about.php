@@ -49,7 +49,7 @@ $skills = skills_all();
   </div>
   <ol class="divide-y divide-line border-y border-line">
     <?php foreach ($timeline as $i => $t): ?>
-      <li class="grid gap-3 py-7 md:grid-cols-12 md:gap-8" data-reveal style="--reveal-delay:<?= $i * 60 ?>ms">
+      <li class="grid gap-3 py-5 md:grid-cols-12 md:gap-8" data-reveal style="--reveal-delay:<?= $i * 60 ?>ms">
         <p class="mono-label text-soft md:col-span-3 md:pt-1"><?= e($t['period']) ?></p>
         <div class="md:col-span-9">
           <h3 class="text-xl font-extrabold tracking-tight md:text-2xl"><?= e($t['title']) ?></h3>

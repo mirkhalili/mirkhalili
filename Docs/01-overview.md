@@ -22,6 +22,7 @@
 .
 ├── index.php  work.php  project.php  about.php  services.php  contact.php  404.php
 ├── sitemap.php  robots.php  schema.sql  .htaccess  favicon.svg
+├── about/ work/ services/ contact/ ← fallback مسیرهای اصلی برای Apache بدون mod_rewrite
 ├── inc/               ← هسته: db, helpers, data, header, footer (مسدود از بیرون)
 │   └── config.sample.php  ← نمونهٔ پیکربندی (کپی به config.php)
 ├── admin/             ← پنل ادمین (login, index, projects, categories,

@@ -16,7 +16,7 @@
 ## تایپوگرافی
 
 - **فارسی**: وزیرمتن متغیر (وزن ۱۰۰–۹۰۰) خودمیزبان؛ تیترها `font-black`، متن `leading-8/9`
-- **لاتین/اعداد**: Space Grotesk Variable برای اعداد (`num-lat`) و Space Mono برای برچسب‌های کوچک (`mono-label` با فاصلهٔ حرف ۰.۱۴em)
+- **فارسی**: Vazirmatn خودمیزبان برای متن اصلی، برچسب‌ها و جدول‌های پنل؛ **لاتین/اعداد**: Space Grotesk Variable برای اعداد (`num-lat`) و Space Mono برای برچسب‌های دارای `dir="ltr"`
 - `text-wrap: balance` برای تیترها و `pretty` برای پاراگراف‌ها
 
 ## گرید سوئیسی
@@ -48,3 +48,6 @@
 
 همان توکن‌ها با لایهٔ UI اختصاصی: سایدبار تیرهٔ چسبان، `.input`، `.btn/.btn-primary/.btn-danger`،
 `.admin-table`، بج‌های `badge-ok/badge-draft` — تعریف‌شده در همان `input.css`.
+
+
+فونت بدنه و برچسب‌های فارسی Vazirmatn متغیرِ خودمیزبان در `assets/fonts/` است. Space Grotesk و Space Mono فقط برای نوشته‌های لاتین و اعداد لاتین استفاده می‌شوند؛ فونت‌ها از CDN بارگیری نمی‌شوند.

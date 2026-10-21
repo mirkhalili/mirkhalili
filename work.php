@@ -35,7 +35,7 @@ require __DIR__ . '/inc/header.php';
     <?php if ($search !== ''): ?><a class="btn" href="/work<?= $cat !== '' ? '?cat=' . rawurlencode($cat) : '' ?>">پاک‌کردن جست‌وجو</a><?php endif; ?>
     <form id="work-search-form" method="get" action="/work" class="hidden"><input type="hidden" name="cat" value="<?= e($cat) ?>"></form>
   </div>
-  <div class="sticky top-16 z-30 -mx-5 border-b border-line bg-paper/90 px-5 py-4 backdrop-blur-md md:top-20 md:-mx-10 md:px-10">
+  <div class="sticky top-16 z-30 -mx-5 border-b border-line bg-paper/90 px-5 py-3 backdrop-blur-md md:top-20 md:-mx-10 md:px-10">
     <div class="flex flex-wrap gap-2" role="group" aria-label="فیلتر دسته‌بندی">
       <a href="/work<?= $search !== '' ? '?q=' . rawurlencode($search) : '' ?>" class="border px-4 py-2 text-sm font-bold transition-colors <?= $cat === '' ? 'border-ink bg-ink text-paper' : 'border-line text-soft hover:border-ink hover:text-ink' ?>">همه</a>
       <?php foreach ($categories as $c): ?>
@@ -47,7 +47,7 @@ require __DIR__ . '/inc/header.php';
   <?php if ($projects === []): ?>
     <p class="mt-12 border border-dashed border-line py-16 text-center text-soft">هنوز پروژه‌ای در این دسته منتشر نشده است.</p>
   <?php else: ?>
-    <div class="mt-12 grid gap-x-8 gap-y-14 md:grid-cols-2">
+    <div class="mt-12 grid gap-x-8 gap-y-10 md:grid-cols-2">
       <?php foreach ($projects as $i => $p): ?>
         <a href="/work/<?= e($p['slug']) ?>" class="group block" data-reveal style="--reveal-delay:<?= ($i % 2) * 90 ?>ms">
           <div class="zoom-img relative aspect-4/3 overflow-hidden bg-paper-deep">
