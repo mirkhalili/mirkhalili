@@ -1,0 +1,410 @@
+@import 'tailwindcss';
+
+/* فقط فایل‌های PHP این نسخه اسکن شوند */
+@source "../../../*.php";
+@source "../../../inc/**/*.php";
+@source "../../../admin/**/*.php";
+
+/* ---------- فونت‌های خودمیزبان ---------- */
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('/assets/fonts/vazirmatn-var.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Space Grotesk Variable';
+  src: url('/assets/fonts/space-grotesk-var.woff2') format('woff2');
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Space Mono';
+  src: url('/assets/fonts/space-mono-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Space Mono';
+  src: url('/assets/fonts/space-mono-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --color-paper: #f4f1ea;
+  --color-paper-deep: #ece8de;
+  --color-ink: #191712;
+  --color-soft: #6f685c;
+  --color-line: #d9d3c6;
+  --color-accent: #e4471c;
+
+  --font-fa: 'Vazirmatn', 'Space Grotesk Variable', ui-sans-serif, sans-serif;
+  --font-lat: 'Space Grotesk Variable', 'Vazirmatn', ui-sans-serif, sans-serif;
+  --font-mono: 'Space Mono', ui-monospace, monospace;
+
+  --ease-swiss: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-paper text-ink font-fa antialiased;
+    overflow-x: hidden;
+  }
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-paper);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@utility num-lat {
+  font-family: var(--font-lat);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+@utility mono-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* ---------- گرید تزئینی ---------- */
+.grid-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+}
+.grid-overlay > div {
+  border-inline-start: 1px solid color-mix(in srgb, var(--color-ink) 6%, transparent);
+}
+.grid-overlay > div:last-child {
+  border-inline-end: 1px solid color-mix(in srgb, var(--color-ink) 6%, transparent);
+}
+@media (min-width: 768px) {
+  .grid-overlay {
+    grid-template-columns: repeat(12, 1fr);
+  }
+}
+
+/* ---------- reveal ---------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s var(--ease-swiss), transform 0.9s var(--ease-swiss);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+[data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- هیرو ---------- */
+.mask-line {
+  display: block;
+  overflow: hidden;
+}
+.mask-line > span {
+  display: block;
+  transform: translateY(110%);
+  animation: line-up 1s var(--ease-swiss) forwards;
+  animation-delay: var(--line-delay, 0ms);
+}
+@keyframes line-up {
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* ---------- marquee ---------- */
+.marquee {
+  overflow: hidden;
+  display: flex;
+}
+.marquee-track {
+  display: flex;
+  flex-shrink: 0;
+  min-width: 100%;
+  animation: marquee 36s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(50%);
+  }
+}
+
+/* ---------- فهرست کارها ---------- */
+.work-row .work-title {
+  transition: transform 0.5s var(--ease-swiss), color 0.3s ease;
+}
+.work-row:hover .work-title {
+  transform: translateX(-12px);
+  color: var(--color-accent);
+}
+.work-row .row-arrow {
+  transition: transform 0.5s var(--ease-swiss), opacity 0.3s ease;
+  opacity: 0.25;
+}
+.work-row:hover .row-arrow {
+  transform: translate(-6px, -6px);
+  opacity: 1;
+  color: var(--color-accent);
+}
+#hover-preview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 40;
+  width: 22rem;
+  aspect-ratio: 4 / 3;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  will-change: transform;
+}
+#hover-preview.is-on {
+  opacity: 1;
+}
+#hover-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------- تصویر ---------- */
+.zoom-img {
+  overflow: hidden;
+}
+.zoom-img img {
+  transition: transform 1.1s var(--ease-swiss);
+}
+.zoom-img:hover img {
+  transform: scale(1.05);
+}
+
+/* ---------- لینک زیرخط‌دار ---------- */
+.link-slide {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  transition: background-size 0.45s var(--ease-swiss);
+  padding-bottom: 2px;
+}
+.link-slide:hover {
+  background-size: 100% 1px;
+}
+
+.pulse-dot {
+  position: relative;
+}
+.pulse-dot::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 9999px;
+  border: 1px solid currentColor;
+  opacity: 0;
+  animation: pulse 2.4s ease-out infinite;
+}
+@keyframes pulse {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+/* =========================================================
+   پنل ادمین
+   ========================================================= */
+.admin-shell {
+  display: grid;
+  min-height: 100vh;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 1024px) {
+  .admin-shell {
+    grid-template-columns: 16rem 1fr;
+  }
+}
+.admin-side {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  display: flex;
+  flex-direction: column;
+}
+@media (min-width: 1024px) {
+  .admin-side {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+  }
+}
+.admin-main {
+  padding: 1.5rem 1.25rem 4rem;
+}
+@media (min-width: 768px) {
+  .admin-main {
+    padding: 2.5rem 2.5rem 5rem;
+  }
+}
+
+.input {
+  width: 100%;
+  border: 1px solid var(--color-line);
+  background: var(--color-paper-deep);
+  padding: 0.625rem 0.875rem;
+  font-size: 0.9375rem;
+  font-family: var(--font-fa);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.input:focus {
+  border-color: var(--color-accent);
+}
+textarea.input {
+  line-height: 1.9;
+  resize: vertical;
+}
+select.input {
+  appearance: auto;
+}
+
+.btn {
+  display: inline-block;
+  border: 1px solid var(--color-ink);
+  background: transparent;
+  color: var(--color-ink);
+  padding: 0.5rem 1rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  font-family: var(--font-fa);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.btn:hover {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+.btn-primary {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+.btn-primary:hover {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-paper);
+}
+.btn-danger {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+.btn-danger:hover {
+  background: var(--color-accent);
+  color: var(--color-paper);
+}
+.btn-sm {
+  padding: 0.3rem 0.65rem;
+  font-size: 0.75rem;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+.admin-table th {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-soft);
+  text-align: right;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--color-line);
+}
+.admin-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--color-line);
+  vertical-align: middle;
+}
+.admin-table tr:last-child td {
+  border-bottom: 0;
+}
+.admin-table .actions {
+  white-space: nowrap;
+  text-align: left;
+}
+.admin-table .actions form {
+  display: inline;
+}
+
+.badge-ok,
+.badge-draft {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  font-size: 0.6875rem;
+  font-weight: 800;
+}
+.badge-ok {
+  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+  color: var(--color-accent);
+}
+.badge-draft {
+  background: color-mix(in srgb, var(--color-soft) 15%, transparent);
+  color: var(--color-soft);
+}
+
+.rep-row .input {
+  min-width: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .mask-line > span {
+    transform: none;
+    animation: none;
+  }
+  .marquee-track,
+  .pulse-dot::after {
+    animation: none;
+  }
+}
