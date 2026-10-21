@@ -10,13 +10,22 @@ require_once __DIR__ . '/helpers.php';
 require_once __DIR__ . '/data.php';
 
 $site_name = setting('site_name', 'میر خلیلی');
-$page_title = isset($page_title) && $page_title !== '' ? $page_title . ' — ' . $site_name : $site_name . ' — ' . setting('role', 'طراح گرافیک');
-$page_desc = $page_desc ?? setting('hero_intro', 'پورتفولیوی طراح گرافیک و هویت بصری');
-$page_og = $page_og ?? '/assets/uploads/studio.jpg';
+$page_title = isset($page_title) && $page_title !== '' ? $page_title . ' — ' . $site_name : (setting('seo_title', '') ?: $site_name . ' — ' . setting('role', 'طراح گرافیک'));
+$page_desc = $page_desc ?? (setting('seo_description', '') ?: setting('hero_intro', 'پورتفولیوی طراح گرافیک و هویت بصری'));
+$page_og = setting('seo_og_image', '') ?: ($page_og ?? '/assets/uploads/studio.jpg');
 $path = current_path();
 $app_cfg = app_config();
 $base_url = rtrim((string) ($app_cfg['site_url'] ?? ''), '/');
 $canonical = $base_url . ($path === '/' ? '/' : $path);
+// Anonymous aggregate page-view analytics; never persist IP addresses or user-agent strings.
+if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'GET' && !str_starts_with($path, '/admin')) {
+    try {
+        $refHost = '';
+        $ref = (string) ($_SERVER['HTTP_REFERER'] ?? '');
+        if ($ref !== '') { $parsedRef = parse_url($ref); $refHost = strtolower((string) ($parsedRef['host'] ?? '')); }
+        q('INSERT INTO site_visits (path, referrer_host) VALUES (?, ?)', [substr($path, 0, 255), substr($refHost, 0, 190)]);
+    } catch (Throwable $exception) { error_log('Visit analytics unavailable: ' . $exception->getMessage()); }
+}
 
 $nav = [
     '/'        => 'خانه',

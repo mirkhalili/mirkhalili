@@ -57,3 +57,8 @@
 
 
 در نگارش 010.2.5.2 فایل SQL ساخت مدیر با collation صریح `utf8mb4_unicode_ci` به‌روزرسانی شد تا با collation اتصال phpMyAdmin تداخل نکند. ساختار جداول همچنان بدون تغییر است.
+
+
+### Migration نسخهٔ 011.2.6.0
+
+فایل `database/011.2.6.0-admin-expansion.sql` را یک بار روی دیتابیس موجود اجرا کنید. این migration ستون‌های email/role/is_active/last_login را به users اضافه می‌کند (کاربران قبلی مدیر فعال می‌مانند) و دو جدول `admin_activity` و `site_visits` می‌سازد. برای نصب تازه، همین ساختار در `schema.sql` موجود است. پیش از اجرا نسخهٔ پشتیبان تهیه کنید و از اجرای دوبارهٔ ALTER TABLE خودداری کنید.

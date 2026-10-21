@@ -3,6 +3,7 @@ declare(strict_types=1);
 $admin_title = 'تنظیمات سایت';
 $admin_active = 'settings';
 require_once __DIR__ . '/inc/auth.php';
+admin_require_module('settings', ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST');
 
 $field_defaults = [
     'home_kicker' => 'پورتفولیو — نسخهٔ ۱۴۰۵', 'hero_accent' => 'مانده',
@@ -24,6 +25,9 @@ $field_defaults = [
 ];
 
 $fields = [
+    'seo_title' => ['SEO — عنوان پیش‌فرض سایت', 'text'],
+    'seo_description' => ['SEO — توضیح پیش‌فرض (حداکثر حدود ۱۶۰ نویسه)', 'textarea'],
+    'seo_og_image' => ['SEO — مسیر تصویر اشتراک‌گذاری', 'text'],
     'site_name'    => ['نام سایت', 'text'],
     'site_name_en' => ['نام لاتین', 'text'],
     'role'         => ['عنوان حرفه‌ای', 'text'],
@@ -77,6 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($action === 'save_settings') {
         foreach (array_keys($fields) as $key) {
+            if (in_array($key, ['seo_title','seo_description','seo_og_image'], true) && !admin_can('seo')) continue;
             $value = trim((string) ($_POST[$key] ?? ''));
             q('INSERT INTO settings (setting_key, setting_value) VALUES (?, ?)
                ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value)', [$key, $value]);
@@ -126,7 +131,7 @@ if ($socials === []) {
     <input type="hidden" name="action" value="save_settings">
     <h2 class="mb-2 text-lg font-extrabold">متن‌ها و محتوای صفحات</h2><p class="mb-6 text-sm leading-7 text-soft">محتوای صفحهٔ نخست، درباره، خدمات و تماس را از این فرم مدیریت کنید. قالب‌بندی امن برای فیلدهای متنی در دسترس است.</p>
     <div class="grid gap-4 md:grid-cols-2">
-      <?php foreach ($fields as $key => [$label, $type]): ?>
+      <?php foreach ($fields as $key => [$label, $type]): if (in_array($key, ['seo_title','seo_description','seo_og_image'], true) && !admin_can('seo')) continue; ?>
         <label class="block <?= in_array($type, ['textarea', 'rich'], true) ? 'md:col-span-2' : '' ?>">
           <span class="mono-label mb-2 block text-soft"><?= e($label) ?></span>
           <?php if ($type === 'textarea' || $type === 'rich'): ?>

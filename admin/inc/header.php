@@ -10,13 +10,16 @@ $admin_title = $admin_title ?? 'داشبورد';
 $admin_active = $admin_active ?? '';
 $unread = unread_messages_count();
 $nav_items = [
-    'index'      => ['/admin/', 'داشبورد'],
-    'projects'   => ['/projects.php', 'پروژه‌ها'],
-    'categories' => ['/categories.php', 'دسته‌بندی‌ها'],
-    'services'   => ['/services.php', 'خدمات'],
-    'resume'     => ['/resume.php', 'رزومه و جوایز'],
-    'settings'   => ['/settings.php', 'تنظیمات سایت'],
-    'messages'   => ['/messages.php', 'پیام‌ها'],
+    'index'      => ['dashboard', '/admin/', 'داشبورد'],
+    'projects'   => ['projects', '/projects.php', 'پروژه‌ها'],
+    'categories' => ['categories', '/categories.php', 'دسته‌بندی‌ها'],
+    'services'   => ['services', '/services.php', 'خدمات'],
+    'resume'     => ['resume', '/resume.php', 'رزومه و جوایز'],
+    'settings'   => ['settings', '/settings.php', 'تنظیمات سایت'],
+    'messages'   => ['messages', '/messages.php', 'پیام‌ها'],
+    'visits'     => ['visits', '/admin/visits.php', 'آمار بازدید'],
+    'activity'   => ['activity', '/admin/activity.php', 'رویدادنگاری'],
+    'users'      => ['users', '/admin/users.php', 'کاربران و دسترسی‌ها'],
 ];
 ?>
 <!doctype html>
@@ -37,7 +40,7 @@ $nav_items = [
       <span class="mono-label text-paper/50">مشاهدهٔ سایت ↗</span>
     </a>
     <nav class="flex-1 space-y-1 p-3">
-      <?php foreach ($nav_items as $key => [$href, $label]): ?>
+      <?php foreach ($nav_items as $key => [$module, $href, $label]): if (!admin_can($module)) continue; ?>
         <a href="<?= e($href) ?>" class="flex items-center justify-between px-4 py-2.5 text-sm font-bold transition-colors <?= $admin_active === $key ? 'bg-accent text-paper' : 'text-paper/70 hover:bg-paper/10 hover:text-paper' ?>">
           <?= e($label) ?>
           <?php if ($key === 'messages' && $unread > 0): ?><span class="rounded-full bg-paper px-2 py-0.5 text-xs font-black text-ink"><?= $unread ?></span><?php endif; ?>
@@ -46,6 +49,7 @@ $nav_items = [
     </nav>
     <div class="border-t border-paper/10 p-4 text-xs text-paper/50">
       <p class="font-bold text-paper/80"><?= e($_SESSION['admin_name'] ?? 'ادمین') ?></p>
+      <a class="mt-2 inline-block font-bold text-paper/70 hover:text-paper" href="/admin/profile.php">پروفایل من</a>
       <form method="post" action="/admin/logout.php" class="mt-2">
         <?= csrf_field() ?>
         <button class="link-slide font-bold text-paper/70">خروج از پنل</button>

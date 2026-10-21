@@ -3,6 +3,7 @@ declare(strict_types=1);
 $admin_title = 'پیام‌های تماس';
 $admin_active = 'messages';
 require_once __DIR__ . '/inc/auth.php';
+admin_require_module('messages', ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_check();

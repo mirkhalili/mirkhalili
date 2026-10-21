@@ -3,6 +3,7 @@ declare(strict_types=1);
 $admin_title = 'خدمات و فرآیند';
 $admin_active = 'services';
 require_once __DIR__ . '/inc/auth.php';
+admin_require_module('services', ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_check();
@@ -35,6 +36,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'delete_service') {
         safe_delete('services', (int) ($_POST['id'] ?? 0));
         flash_set('خدمت حذف شد.');
+        redirect('/admin/services.php');
+    }
+
+    if ($action === 'save_page_settings') {
+        foreach (['services_title', 'services_intro', 'services_process_title', 'services_process_intro', 'process_note'] as $key) {
+            $value = trim((string) ($_POST[$key] ?? ''));
+            q('INSERT INTO settings (setting_key, setting_value) VALUES (?, ?) ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value)', [$key, $value]);
+        }
+        flash_set('تنظیمات صفحهٔ خدمات ذخیره شد.');
         redirect('/admin/services.php');
     }
 
@@ -92,6 +102,15 @@ $process = q_all('SELECT * FROM process_steps ORDER BY sort, id');
         </div>
       <?php endforeach; ?>
     </div>
+
+    <h2 class="mb-4 mt-10 text-lg font-extrabold">متن‌ها و تنظیمات صفحهٔ خدمات</h2>
+    <form method="post" class="mb-8 border border-line bg-paper p-5">
+      <?= csrf_field() ?><input type="hidden" name="action" value="save_page_settings">
+      <?php foreach ([['services_title','عنوان اصلی'],['services_intro','مقدمه'],['services_process_title','عنوان فرآیند'],['services_process_intro','توضیح فرآیند'],['process_note','یادداشت زمان‌بندی']] as [$key,$label]): ?>
+        <label class="mb-3 block text-sm font-bold"><?= e($label) ?><textarea class="input mt-1" name="<?= e($key) ?>" rows="2"><?= e(setting($key)) ?></textarea></label>
+      <?php endforeach; ?>
+      <button class="btn btn-primary btn-sm">ذخیرهٔ متن‌های صفحه</button>
+    </form>
 
     <h2 class="mb-4 mt-10 text-lg font-extrabold">مراحل فرآیند</h2>
     <form method="post" class="border border-line bg-paper p-5">
