@@ -32,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?= csrf_field() ?>
     <p class="mono-label text-soft">پنل مدیریت</p>
     <h1 class="mt-2 text-2xl font-black tracking-tight">ورود به پنل</h1>
+    <?php if (isset($_GET['created'])): ?><p class="mt-4 border border-ink bg-paper-deep px-4 py-2 text-sm font-bold" role="status">کاربر مدیر ساخته شد؛ اکنون وارد شوید.</p><?php endif; ?>
     <?php if ($error !== ''): ?><p class="mt-4 border border-accent bg-accent/10 px-4 py-2 text-sm font-bold text-accent"><?= e($error) ?></p><?php endif; ?>
     <label class="mt-6 block">
       <span class="mono-label mb-2 block text-soft">نام کاربری</span>
@@ -42,7 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <input name="password" type="password" required autocomplete="current-password" class="w-full border border-line bg-paper-deep px-4 py-3 outline-none focus:border-accent">
     </label>
     <button class="mt-6 w-full bg-ink py-3.5 text-sm font-black text-paper transition-colors hover:bg-accent">ورود</button>
-    <p class="mt-4 text-center"><a href="/" class="link-slide text-sm text-soft">بازگشت به سایت</a></p>
+    <p class="mt-4 text-center"><a href="/admin/setup.php" class="link-slide text-sm font-bold">ساخت اولین کاربر مدیر</a></p>
+    <p class="mt-3 text-center"><a href="/" class="link-slide text-sm text-soft">بازگشت به سایت</a></p>
   </form>
 </body>
 </html>

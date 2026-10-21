@@ -1,9 +1,13 @@
-# CMS public_html root — Apache 2.4 + mod_rewrite/mod_headers
+# CMS public_html root — Apache 2.4 + mod_rewrite/mod_headers/mod_mime
+<IfModule mod_mime.c>
+  AddType font/woff2 .woff2
+</IfModule>
 Options -Indexes
 DirectoryIndex index.php
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
+  RewriteBase /
 
   # Require HTTPS when the server exposes the standard HTTPS variable.
   RewriteCond %{HTTPS} !=on
@@ -18,6 +22,8 @@ DirectoryIndex index.php
   RewriteRule ^(about|services|contact)/?$ $1.php [L]
 
 </IfModule>
+
+ErrorDocument 404 /404.php
 
 <IfModule mod_headers.c>
   Header always set X-Content-Type-Options "nosniff"

@@ -8,28 +8,28 @@
 /* ---------- فونت‌های خودمیزبان ---------- */
 @font-face {
   font-family: 'Vazirmatn';
-  src: url('/assets/fonts/vazirmatn-var.woff2') format('woff2');
+  src: url('../fonts/vazirmatn-var.woff2') format('woff2');
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Space Grotesk Variable';
-  src: url('/assets/fonts/space-grotesk-var.woff2') format('woff2');
+  src: url('../fonts/space-grotesk-var.woff2') format('woff2');
   font-weight: 300 700;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Space Mono';
-  src: url('/assets/fonts/space-mono-400.woff2') format('woff2');
+  src: url('../fonts/space-mono-400.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Space Mono';
-  src: url('/assets/fonts/space-mono-700.woff2') format('woff2');
+  src: url('../fonts/space-mono-700.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -45,7 +45,7 @@
 
   --font-fa: 'Vazirmatn', 'Space Grotesk Variable', ui-sans-serif, sans-serif;
   --font-lat: 'Space Grotesk Variable', 'Vazirmatn', ui-sans-serif, sans-serif;
-  --font-mono: 'Space Mono', ui-monospace, monospace;
+  --font-mono: 'Vazirmatn', sans-serif;
 
   --ease-swiss: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -82,8 +82,8 @@
 @utility mono-label {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 /* ---------- گرید تزئینی ---------- */
@@ -345,17 +345,17 @@ select.input {
   font-size: 0.875rem;
 }
 .admin-table th {
-  font-family: var(--font-mono);
+  font-family: var(--font-fa);
   font-size: 0.6875rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--color-soft);
   text-align: right;
-  padding: 0.75rem 1rem;
+  padding: 0.5rem 0.75rem;
   border-bottom: 1px solid var(--color-line);
 }
 .admin-table td {
-  padding: 0.75rem 1rem;
+  padding: 0.5rem 0.75rem;
   border-bottom: 1px solid var(--color-line);
   vertical-align: middle;
 }
@@ -408,3 +408,6 @@ select.input {
     animation: none;
   }
 }
+
+/* Persian glyphs use the locally hosted Vazirmatn; Latin labels keep the local mono font. */
+.mono-label[dir="ltr"] { font-family: "Space Mono", ui-monospace, monospace; letter-spacing: 0.08em; }

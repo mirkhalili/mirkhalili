@@ -1,8 +1,7 @@
 # ۰۶ — نصب و دیپلوی (CMS تک‌نسخه‌ای)
 
-> **نگارش جاری 007.2.3.0:** ریشهٔ ریپو دقیقاً محتوای `public_html` است.
-> فایل `install.php` حذف شده و نصب **بدون اسکریپت نصب** انجام می‌شود:
-> ایمپورت `schema.sql` در phpMyAdmin + کپی `inc/config.sample.php` به `inc/config.php` + کوئری ساخت ادمین.
+> **نگارش جاری 008.2.4.1:** ریشهٔ ریپو دقیقاً محتوای `public_html` است.
+> فایل نصب قدیمی حذف شده؛ ابتدا `schema.sql` را ایمپورت و `inc/config.php` را بسازید، سپس با کلید یک‌بارمصرف از `/admin/setup.php` اولین مدیر را ایجاد کنید.
 
 ---
 
@@ -10,7 +9,7 @@
 
 - **PHP 8.1 یا بالاتر** با افزونهٔ `pdo_mysql` (در هاست اشتراکی cPanel پیش‌فرض فعال است)
 - **MySQL / MariaDB** با پشتیبانی `utf8mb4`
-- **Apache** با `mod_rewrite` و `mod_headers` (برای `.htaccess`)
+- **Apache** با `mod_rewrite` و `mod_headers` (برای `.htaccess`; مسیرهای اصلی دارای fallback هستند، اما جزئیات پروژه نیازمند mod_rewrite است)
 - **Node.js لازم نیست**؛ CSS کامپایل‌شده همراه ریپو است (`assets/css/style.css`)
 
 ---
@@ -30,12 +29,12 @@
 ریشهٔ ریپو = `public_html`. دو روش:
 
 ### الف) File Manager (ساده‌ترین)
-1. در سیستم خودتان کل ریپو را Zip کنید **یا** از صفحهٔ Release فایل `mirkhalili-007.2.3.0.zip` را دانلود کنید
+1. در سیستم خودتان کل ریپو را Zip کنید **یا** از صفحهٔ Release فایل `mirkhalili-008.2.4.1.zip` را دانلود کنید
 2. cPanel → **File Manager** → وارد `public_html` شوید
 3. اگر فایل‌های پیش‌فرض هاست (مثل `index.php` نمونه) هست، حذف کنید
-4. فایل Zip را **Upload** کنید → راست‌کلیک → **Extract** → مسیر `public_html`
-5. Zip را حذف کنید
-6. بررسی: **Settings → Show Hidden Files** را بزنید و مطمئن شوید `.htaccess` و `inc/` آپلود شده‌اند
+4. فایل را **Upload** و **Extract** کنید. اگر ZIP از «Source code» گیت‌هاب است، ابتدا پوشهٔ نسخه را باز کنید و **محتویات داخلش** را به `public_html` منتقل کنید؛ خود پوشه را درون `public_html` نگه ندارید. ZIP بستهٔ آماده، فایل‌ها را مستقیم در ریشه دارد.
+5. فایل ZIP و پوشهٔ خالی نسخه را حذف کنید
+6. بررسی: **Settings → Show Hidden Files** را بزنید و مطمئن شوید `.htaccess`، پوشه‌های `inc/`, `admin/`, `assets/` و فایل `index.php` همگی مستقیماً داخل `public_html` هستند
 
 ### ب) FTP / FileZilla
 1. cPanel → **FTP Accounts** → اکانت FTP بسازید (یا اکانت اصلی cPanel)
@@ -48,7 +47,8 @@ public_html/
 ├── index.php  work.php  project.php  about.php  services.php  contact.php  404.php
 ├── sitemap.php  robots.php  schema.sql  .htaccess  favicon.svg
 ├── inc/  (شامل config.sample.php → باید config.php بسازید)
-├── admin/
+├── about/ work/ services/ contact/ (fallback route index.php)
+├── admin/  (login.php + setup.php + سایر صفحه‌ها)
 └── assets/ (css, js, fonts, uploads)
 ```
 
@@ -83,6 +83,7 @@ return [
         'pass' => 'رمز_قوی_اینجا',          // رمز کاربر دیتابیس
     ],
     'site_url' => 'https://yourdomain.com', // بدون اسلش انتهایی
+    'admin_setup_key' => '۶۴ رقم هگز تصادفی که تولید کرده‌اید',
 ];
 ```
 
@@ -93,38 +94,28 @@ return [
 
 ---
 
-## گام ۵) ساخت کاربر ادمین با کوئری SQL
+## گام ۵) ساخت اولین کاربر مدیر (ایمن و یک‌بارمصرف)
 
-به‌جای فرم نصب، ادمین را مستقیماً در دیتابیس بسازید:
+در نسخهٔ جاری پنل فرم راه‌اندازی دارد؛ هیچ نام کاربری/رمز پیش‌فرض یا اکانت از پیش‌ساخته‌ای در کد قرار نگرفته است.
 
-### ۵-۱) تولید هش رمز (bcrypt)
+1. در `inc/config.php` کلید `admin_setup_key` را اضافه کنید؛ یک کلید ۶۴ رقمی hex تصادفی بسازید (در cPanel Terminal یا سیستم خودتان):
+   ```bash
+   php -r "echo bin2hex(random_bytes(32));"
+   ```
+2. مقدار تولیدشده را در آرایهٔ config قرار دهید، مثلاً: `'admin_setup_key' => 'کلید۶۴رقمی',`
+3. صفحهٔ `https://دامنه/admin/setup.php` را باز کنید؛ کلید را وارد و نام کاربری، نام نمایشی و رمز قوی ۱۲ نویسه‌ای را ثبت کنید.
+4. پس از ساخت نخستین مدیر، راه‌اندازی با قفل دیتابیس بسته می‌شود؛ کلید را از `inc/config.php` حذف کنید.
 
-در **سیستم لوکال** خود (یا هر سرور با PHP) اجرا کنید:
+اگر PHP CLI در دسترس نیست، از phpMyAdmin طبق روش SQL پایین استفاده کنید. این مسیر فرم setup را لازم ندارد.
 
-```bash
-php -r "echo password_hash('رمز_قوی_اینجا', PASSWORD_DEFAULT);"
-```
+### روش جایگزین: ساخت با SQL
 
-خروجی چیزی شبیه `$2y$10$abcdefghijk...` است — آن را کپی کنید.
-
-> هش هر بار متفاوت است؛ همین امن است. رمز را حداقل ۱۲ کاراکتر و ترکیبی بگذارید.
-
-### ۵-۲) اجرای INSERT در phpMyAdmin
-
-در phpMyAdmin → دیتابیس خود → تب **SQL** → کوئری زیر را با هش تولیدشده اجرا کنید:
+هش رمز را روی سیستمی با PHP اجرا کنید: `php -r "echo password_hash('رمز_قوی_اینجا', PASSWORD_DEFAULT);"`، سپس در phpMyAdmin اجرا کنید:
 
 ```sql
 INSERT INTO users (username, password_hash, display_name)
 VALUES ('admin', '$2y$10$...هش_تولیدشده_را_اینجا_بگذارید...', 'مدیر سایت');
 ```
-
-- برای ادمین دوم، همین کوئری را با `username` متفاوت تکرار کنید
-- برای تغییر رمز موجود:
-  ```sql
-  UPDATE users SET password_hash = '$2y$10$...هش_جدید...' WHERE username = 'admin';
-  ```
-
----
 
 ## گام ۶) ورود به پنل و بررسی
 
@@ -172,3 +163,10 @@ npm run build:cms-css
 | 404 روی `/work/xxx` | `.htaccess` آپلود نشده یا `mod_rewrite` غیرفعال |
 | تصاویر آپلود نمی‌شوند | پوشهٔ `assets/uploads` باید قابل‌نوشتن باشد (755/775) |
 | فونت لود نمی‌شود | بررسی `assets/fonts/*.woff2` و کش مرورگر |
+
+
+## بررسی خطای ۴۰۴ صفحه‌ها
+
+در ریشهٔ `public_html` باید `index.php`, `.htaccess` و پوشه‌های `about/`, `work/`, `services/`, `contact/` وجود داشته باشند. بستهٔ Source گیت‌هاب پوشهٔ والد دارد؛ محتویات داخل آن را به ریشهٔ هاست منتقل کنید. پوشه‌های fallback صفحه‌های اصلی را حتی بدون mod_rewrite باز می‌کنند؛ لینک‌های `/work/slug` برای صفحهٔ پروژه نیازمند `mod_rewrite` فعال است. در صورت ۴۰۴، از پشتیبانی هاست بخواهید `AllowOverride All` و `mod_rewrite` را برای `public_html` فعال کنند و نمایش فایل‌های مخفی را در File Manager روشن کنید.
+
+فونت‌ها در `assets/fonts/` داخل همین بسته هستند و از همان هاست بارگذاری می‌شوند؛ درخواست فونت به سرویس بیرونی وجود ندارد.
