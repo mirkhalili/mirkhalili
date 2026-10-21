@@ -12,7 +12,7 @@ $marquee = pipe_list(setting('marquee'));
 ?>
 
 <!-- HERO -->
-<section class="mx-auto flex min-h-svh max-w-7xl flex-col justify-end px-5 pt-28 pb-10 md:px-10 md:pt-36 md:pb-14">
+<section class="mx-auto flex max-w-7xl flex-col px-5 pt-24 pb-10 md:px-10 md:pt-32 md:pb-14">
   <div class="mb-8 grid grid-cols-2 gap-6 border-b border-line pb-6 text-sm md:grid-cols-4" data-reveal>
     <p class="mono-label text-soft"><?= e(setting('home_kicker', 'پورتفولیو — نسخهٔ ۱۴۰۵')) ?></p>
     <p class="mono-label text-soft hidden md:block"><?= e(setting('city')) ?></p>

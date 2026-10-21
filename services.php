@@ -1,5 +1,9 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__ . '/inc/db.php';
+require_once __DIR__ . '/inc/helpers.php';
+require_once __DIR__ . '/inc/data.php';
+
 $page_title = setting('services_title', 'خدمات');
 $page_desc = setting('services_intro', 'هویت بصری، لوگو، پوستر و بنر، کتاب و نشر، کارت ویزیت، بسته‌بندی، تایپوگرافی.');
 require __DIR__ . '/inc/header.php';
