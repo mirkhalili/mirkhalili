@@ -46,7 +46,8 @@ function q(string $sql, array $params = []): PDOStatement
     $st->execute($params);
     // Capture successful admin-side mutations without retaining submitted values or secrets.
     if ($st->rowCount() > 0 && session_status() === PHP_SESSION_ACTIVE && !empty($_SESSION['admin_id'])
-        && str_starts_with((string) ($_SERVER['SCRIPT_NAME'] ?? ''), '/admin/')
+        && (str_starts_with((string) ($_SERVER['SCRIPT_NAME'] ?? ''), '/admin/')
+            || str_contains(str_replace('\\', '/', (string) ($_SERVER['SCRIPT_FILENAME'] ?? '')), '/admin/'))
         && preg_match('/^\s*(INSERT\s+INTO|UPDATE|DELETE\s+FROM)\s+`?([a-zA-Z0-9_]+)`?/i', $sql, $match)
         && !in_array(strtolower($match[2]), ['admin_activity', 'site_visits'], true)) {
         try {
