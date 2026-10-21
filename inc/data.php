@@ -33,7 +33,7 @@ function categories_all(): array
 }
 
 /** فهرست پروژه‌های منتشرشده (+ نام دسته) */
-function projects_all(?string $categorySlug = null): array
+function projects_all(?string $categorySlug = null, ?string $search = null): array
 {
     $sql = 'SELECT p.*, c.name AS category_name, c.slug AS category_slug
             FROM projects p LEFT JOIN categories c ON c.id = p.category_id
@@ -42,6 +42,11 @@ function projects_all(?string $categorySlug = null): array
     if ($categorySlug !== null) {
         $sql .= ' AND c.slug = ?';
         $params[] = $categorySlug;
+    }
+    if ($search !== null && trim($search) !== '') {
+        $sql .= ' AND (p.title LIKE ? OR p.title_en LIKE ? OR p.client LIKE ? OR p.excerpt LIKE ? OR p.description LIKE ? OR c.name LIKE ?)';
+        $term = '%' . trim($search) . '%';
+        array_push($params, $term, $term, $term, $term, $term, $term);
     }
     $sql .= ' ORDER BY p.sort, p.id';
     return q_all($sql, $params);

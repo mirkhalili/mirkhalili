@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
-$page_title = 'خدمات';
-$page_desc = 'هویت بصری، لوگو، پوستر و بنر، کتاب و نشر، کارت ویزیت، بسته‌بندی، تایپوگرافی.';
+$page_title = setting('services_title', 'خدمات');
+$page_desc = setting('services_intro', 'هویت بصری، لوگو، پوستر و بنر، کتاب و نشر، کارت ویزیت، بسته‌بندی، تایپوگرافی.');
 require __DIR__ . '/inc/header.php';
 
 $services = services_all();
@@ -10,8 +10,8 @@ $process = process_all();
 
 <section class="mx-auto max-w-7xl px-5 pt-32 pb-16 md:px-10 md:pt-44 md:pb-20">
   <p class="mono-label mb-3 flex items-center gap-2 text-soft" data-reveal><span class="inline-block size-2 rotate-45 bg-accent"></span>خدمات</p>
-  <h1 class="max-w-4xl text-4xl leading-tight font-black tracking-tight md:text-6xl md:leading-[1.15]" data-reveal>راه‌هایی برای اینکه با هم کار کنیم.</h1>
-  <p class="mt-6 max-w-2xl text-lg leading-9 text-soft" data-reveal><?= e(setting('services_intro')) ?></p>
+  <h1 class="max-w-4xl text-4xl leading-tight font-black tracking-tight md:text-6xl md:leading-[1.15]" data-reveal><?= e(setting('services_title', 'راه‌هایی برای اینکه با هم کار کنیم.')) ?></h1>
+  <div class="mt-6 max-w-2xl text-lg leading-9 text-soft" data-reveal><?= rich_text(setting('services_intro')) ?></div>
 </section>
 
 <section class="mx-auto max-w-7xl px-5 pb-20 md:px-10 md:pb-28">
@@ -39,9 +39,9 @@ $process = process_all();
     <div class="mb-10 flex flex-wrap items-end justify-between gap-6 md:mb-14" data-reveal>
       <div>
         <p class="mono-label mb-3 flex items-center gap-2 text-soft"><span class="inline-block size-2 rotate-45 bg-accent"></span>فرآیند</p>
-        <h2 class="text-3xl font-black tracking-tight md:text-5xl">چهار قدم، بدون سورپرایز</h2>
+        <h2 class="text-3xl font-black tracking-tight md:text-5xl"><?= e(setting('services_process_title', 'چهار قدم، بدون سورپرایز')) ?></h2>
       </div>
-      <p class="max-w-sm text-sm leading-7 text-soft md:text-base md:leading-8">در هر مرحله دقیقاً می‌دانید کجاییم و قدم بعدی چیست.</p>
+      <div class="max-w-sm text-sm leading-7 text-soft md:text-base md:leading-8"><?= rich_text(setting('services_process_intro', 'در هر مرحله دقیقاً می‌دانید کجاییم و قدم بعدی چیست.')) ?></div>
     </div>
     <ol class="grid gap-px border border-line bg-line md:grid-cols-4">
       <?php foreach ($process as $i => $st): ?>

@@ -58,7 +58,7 @@ function safe_delete(string $table, int $id): void
 }
 
 /** درج/به‌روزرسانی ردیف‌های تکرارشوندهٔ فرزند یک پروژه یا خدمت */
-function sync_children(string $table, string fkCol, int $parentId, array $rows): void
+function sync_children($table, $fkCol, $parentId, $rows)
 {
     $allowed = [
         'project_services' => ['label'],

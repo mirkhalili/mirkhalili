@@ -14,7 +14,7 @@ $marquee = pipe_list(setting('marquee'));
 <!-- HERO -->
 <section class="mx-auto flex min-h-svh max-w-7xl flex-col justify-end px-5 pt-28 pb-10 md:px-10 md:pt-36 md:pb-14">
   <div class="mb-8 grid grid-cols-2 gap-6 border-b border-line pb-6 text-sm md:grid-cols-4" data-reveal>
-    <p class="mono-label text-soft">پورتفولیو — نسخهٔ ۱۴۰۴</p>
+    <p class="mono-label text-soft"><?= e(setting('home_kicker', 'پورتفولیو — نسخهٔ ۱۴۰۵')) ?></p>
     <p class="mono-label text-soft hidden md:block"><?= e(setting('city')) ?></p>
     <p class="mono-label flex items-center gap-2 text-soft">
       <span class="pulse-dot inline-block size-1.5 rounded-full bg-accent text-accent"></span>
@@ -25,14 +25,15 @@ $marquee = pipe_list(setting('marquee'));
 
   <h1 class="text-[13vw] leading-[1.05] font-black tracking-tight md:text-[7.5vw]">
     <span class="mask-line"><span style="--line-delay:100ms"><?= e(setting('hero_l1')) ?></span></span>
-    <span class="mask-line"><span style="--line-delay:240ms"><?= e(setting('hero_l2')) ?> <span class="text-accent">مانده</span></span></span>
+    <span class="mask-line"><span style="--line-delay:240ms"><?= e(setting('hero_l2')) ?> <span class="text-accent"><?= e(setting('hero_accent', 'مانده')) ?></span></span></span>
     <span class="mask-line"><span style="--line-delay:380ms"><?= e(setting('hero_l3')) ?></span></span>
   </h1>
 
   <div class="mt-10 grid gap-8 md:grid-cols-12" data-reveal>
-    <p class="text-lg leading-9 font-medium md:col-span-5 md:text-xl md:leading-10">
-      <?= e(setting('site_name')) ?> — <?= e(setting('role')) ?>. <?= e(setting('hero_intro')) ?>
-    </p>
+    <div class="text-lg leading-9 font-medium md:col-span-5 md:text-xl md:leading-10">
+      <p><?= e(setting('site_name')) ?> — <?= e(setting('role')) ?>.</p>
+      <div class="mt-2 text-soft"><?= rich_text(setting('hero_intro')) ?></div>
+    </div>
     <div class="md:col-span-4 md:col-start-8">
       <p class="mono-label mb-3 text-soft">حوزه‌ها</p>
       <ul class="space-y-1 text-sm font-medium">
@@ -64,10 +65,10 @@ $marquee = pipe_list(setting('marquee'));
 <section id="work" class="mx-auto max-w-7xl px-5 py-20 md:px-10 md:py-28">
   <div class="mb-10 flex flex-wrap items-end justify-between gap-6 md:mb-14" data-reveal>
     <div>
-      <p class="mono-label mb-3 flex items-center gap-2 text-soft"><span class="inline-block size-2 rotate-45 bg-accent"></span>کارهای منتخب</p>
-      <h2 class="text-3xl font-black tracking-tight md:text-5xl">پروژه‌ها، مسئله به مسئله</h2>
+      <p class="mono-label mb-3 flex items-center gap-2 text-soft"><span class="inline-block size-2 rotate-45 bg-accent"></span><?= e(setting('home_work_kicker', 'کارهای منتخب')) ?></p>
+      <h2 class="text-3xl font-black tracking-tight md:text-5xl"><?= e(setting('home_work_title', 'پروژه‌ها، مسئله به مسئله')) ?></h2>
     </div>
-    <p class="max-w-sm text-sm leading-7 text-soft md:text-base md:leading-8">گزیده‌ای از پروژه‌های اخیر؛ از هویت بصری و لوگو تا پوستر، کتاب، بسته‌بندی و تایپوگرافی.</p>
+    <div class="max-w-sm text-sm leading-7 text-soft md:text-base md:leading-8"><?= rich_text(setting('home_work_intro', 'گزیده‌ای از پروژه‌های اخیر؛ از هویت بصری و لوگو تا پوستر، کتاب، بسته‌بندی و تایپوگرافی.')) ?></div>
   </div>
 
   <div class="relative">
@@ -108,10 +109,10 @@ $marquee = pipe_list(setting('marquee'));
     </div>
     <div class="flex flex-col justify-center">
       <div class="mb-10" data-reveal>
-        <p class="mono-label mb-3 flex items-center gap-2 text-soft"><span class="inline-block size-2 rotate-45 bg-accent"></span>استودیو</p>
+        <p class="mono-label mb-3 flex items-center gap-2 text-soft"><span class="inline-block size-2 rotate-45 bg-accent"></span><?= e(setting('home_studio_label', 'استودیو')) ?></p>
         <h2 class="text-3xl font-black tracking-tight md:text-5xl"><?= e(setting('studio_title')) ?></h2>
       </div>
-      <p class="leading-8 text-soft md:leading-9" data-reveal><?= e(setting('studio_text')) ?></p>
+      <div class="leading-8 text-soft md:leading-9" data-reveal><?= rich_text(setting('studio_text')) ?></div>
       <div class="mt-10 grid grid-cols-2 gap-px border border-line bg-line md:grid-cols-4" data-reveal>
         <?php foreach ($stats as $s): ?>
           <div class="bg-paper-deep p-5 text-center">
@@ -130,8 +131,9 @@ $marquee = pipe_list(setting('marquee'));
   <div class="mb-10 flex flex-wrap items-end justify-between gap-6 md:mb-14" data-reveal>
     <div>
       <p class="mono-label mb-3 flex items-center gap-2 text-soft"><span class="inline-block size-2 rotate-45 bg-accent"></span>خدمات</p>
-      <h2 class="text-3xl font-black tracking-tight md:text-5xl">چه کاری از دستم برمی‌آید</h2>
+      <h2 class="text-3xl font-black tracking-tight md:text-5xl"><?= e(setting('home_services_title', 'چه کاری از دستم برمی‌آید')) ?></h2>
     </div>
+    <div class="max-w-sm text-sm leading-7 text-soft md:text-base md:leading-8"><?= rich_text(setting('home_services_intro', 'از تعریف مسئله تا تحویل جزئیات نهایی، کنار شما هستم.')) ?></div>
   </div>
   <ul class="divide-y divide-line border-y border-line">
     <?php foreach ($services as $i => $s): ?>
@@ -149,10 +151,8 @@ $marquee = pipe_list(setting('marquee'));
 <!-- CTA -->
 <section class="border-t border-line bg-ink text-paper">
   <div class="mx-auto max-w-7xl px-5 py-20 text-center md:px-10 md:py-28">
-    <p class="mono-label text-paper/50" data-reveal>قدم بعدی</p>
-    <h2 class="mt-4 text-4xl font-black tracking-tight md:text-6xl" data-reveal>
-      پروژه‌ای در ذهن دارید؟<br><span class="text-accent">بیایید جدی حرف بزنیم.</span>
-    </h2>
+    <p class="mono-label text-paper/50" data-reveal><?= e(setting('home_cta_kicker', 'قدم بعدی')) ?></p>
+    <h2 class="mt-4 text-4xl font-black tracking-tight md:text-6xl" data-reveal><?= rich_inline(setting('home_cta_title', "پروژه‌ای در ذهن دارید؟\nبیایید جدی حرف بزنیم.")) ?></h2>
     <div class="mt-10 flex flex-wrap justify-center gap-4" data-reveal>
       <a href="mailto:<?= e(setting('email')) ?>" class="bg-paper px-8 py-4 text-sm font-black text-ink transition-colors hover:bg-accent hover:text-paper"><?= e(setting('email')) ?></a>
       <a href="/contact" class="border border-paper/40 px-8 py-4 text-sm font-bold transition-colors hover:border-paper hover:bg-paper hover:text-ink">فرم تماس</a>

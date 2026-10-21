@@ -4,16 +4,18 @@ require_once __DIR__ . '/inc/db.php';
 require_once __DIR__ . '/inc/helpers.php';
 require_once __DIR__ . '/inc/data.php';
 
-$cat = isset($_GET['cat']) ? (string) $_GET['cat'] : '';
+$cat = isset($_GET['cat']) ? trim((string) $_GET['cat']) : '';
+$search = isset($_GET['q']) ? trim((string) $_GET['q']) : '';
+$search = preg_match('/^.{0,100}/us', $search, $matches) ? $matches[0] : '';
 $categories = categories_all();
 $valid = array_column($categories, 'slug');
 if ($cat !== '' && !in_array($cat, $valid, true)) {
     $cat = '';
 }
-$projects = projects_all($cat !== '' ? $cat : null);
+$projects = projects_all($cat !== '' ? $cat : null, $search !== '' ? $search : null);
 
-$page_title = 'آرشیو کارها';
-$page_desc = 'همهٔ پروژه‌ها: هویت بصری، لوگو، پوستر، کتاب، بسته‌بندی، کارت ویزیت، بنر و تایپوگرافی.';
+$page_title = setting('work_title', 'کارها');
+$page_desc = setting('work_intro', 'همهٔ پروژه‌ها: هویت بصری، لوگو، پوستر، کتاب، بسته‌بندی، کارت ویزیت، بنر و تایپوگرافی.');
 require __DIR__ . '/inc/header.php';
 ?>
 
@@ -21,16 +23,23 @@ require __DIR__ . '/inc/header.php';
   <div class="flex flex-wrap items-end justify-between gap-6 border-b border-line pb-8" data-reveal>
     <div>
       <p class="mono-label mb-3 flex items-center gap-2 text-soft"><span class="inline-block size-2 rotate-45 bg-accent"></span>آرشیو</p>
-      <h1 class="text-5xl font-black tracking-tight md:text-7xl">کارها</h1>
+      <h1 class="text-5xl font-black tracking-tight md:text-7xl"><?= e(setting('work_title', 'کارها')) ?></h1>
     </div>
     <p class="num-lat text-sm text-soft"><?= count($projects) ?> پروژه</p>
   </div>
 
+  <div class="mt-6 flex flex-col gap-3 sm:flex-row" role="search">
+    <label class="sr-only" for="work-search">جست‌وجوی پروژه</label>
+    <input id="work-search" form="work-search-form" name="q" value="<?= e($search) ?>" class="input max-w-xl" placeholder="جست‌وجو در عنوان، مشتری و توضیحات" type="search">
+    <button form="work-search-form" class="btn btn-primary">جست‌وجو</button>
+    <?php if ($search !== ''): ?><a class="btn" href="/work<?= $cat !== '' ? '?cat=' . rawurlencode($cat) : '' ?>">پاک‌کردن جست‌وجو</a><?php endif; ?>
+    <form id="work-search-form" method="get" action="/work" class="hidden"><input type="hidden" name="cat" value="<?= e($cat) ?>"></form>
+  </div>
   <div class="sticky top-16 z-30 -mx-5 border-b border-line bg-paper/90 px-5 py-4 backdrop-blur-md md:top-20 md:-mx-10 md:px-10">
     <div class="flex flex-wrap gap-2" role="group" aria-label="فیلتر دسته‌بندی">
-      <a href="/work" class="border px-4 py-2 text-sm font-bold transition-colors <?= $cat === '' ? 'border-ink bg-ink text-paper' : 'border-line text-soft hover:border-ink hover:text-ink' ?>">همه</a>
+      <a href="/work<?= $search !== '' ? '?q=' . rawurlencode($search) : '' ?>" class="border px-4 py-2 text-sm font-bold transition-colors <?= $cat === '' ? 'border-ink bg-ink text-paper' : 'border-line text-soft hover:border-ink hover:text-ink' ?>">همه</a>
       <?php foreach ($categories as $c): ?>
-        <a href="/work?cat=<?= e($c['slug']) ?>" class="border px-4 py-2 text-sm font-bold transition-colors <?= $cat === $c['slug'] ? 'border-ink bg-ink text-paper' : 'border-line text-soft hover:border-ink hover:text-ink' ?>"><?= e($c['name']) ?></a>
+        <a href="/work?cat=<?= rawurlencode($c['slug']) ?><?= $search !== '' ? '&amp;q=' . rawurlencode($search) : '' ?>" class="border px-4 py-2 text-sm font-bold transition-colors <?= $cat === $c['slug'] ? 'border-ink bg-ink text-paper' : 'border-line text-soft hover:border-ink hover:text-ink' ?>"><?= e($c['name']) ?></a>
       <?php endforeach; ?>
     </div>
   </div>

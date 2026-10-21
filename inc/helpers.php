@@ -23,6 +23,35 @@ function paras(?string $text): string
     return implode('', $out);
 }
 
+/** متن ساده با قالب‌بندی محدود و امن؛ از HTML خام پشتیبانی نمی‌کند.
+ * پاراگراف‌ها با خط خالی، شکست خط با Enter، **bold** و *italic*.
+ */
+function rich_text(?string $text): string
+{
+    $text = trim((string) $text);
+    if ($text === '') {
+        return '';
+    }
+    $paragraphs = preg_split('/\n{2,}/u', $text) ?: [];
+    $html = [];
+    foreach ($paragraphs as $paragraph) {
+        $safe = e(trim($paragraph));
+        $safe = preg_replace('/\*\*(.+?)\*\*/us', '<strong>$1</strong>', $safe) ?? $safe;
+        $safe = preg_replace('/(?<!\*)\*([^*]+)\*(?!\*)/us', '<em>$1</em>', $safe) ?? $safe;
+        $html[] = '<p class="mb-4">' . nl2br($safe, false) . '</p>';
+    }
+    return implode('', $html);
+}
+
+/** متن کوتاه امن برای تیترها؛ پشتیبانی از **پررنگ**، *کج* و شکست خط. */
+function rich_inline(?string $text): string
+{
+    $safe = e(trim((string) $text));
+    $safe = preg_replace('/\*\*(.+?)\*\*/us', '<strong>$1</strong>', $safe) ?? $safe;
+    $safe = preg_replace('/(?<!\*)\*([^*]+)\*(?!\*)/us', '<em>$1</em>', $safe) ?? $safe;
+    return nl2br($safe, false);
+}
+
 /** لیست عمودی (جدا شده با |) به آرایه */
 function pipe_list(?string $s): array
 {
