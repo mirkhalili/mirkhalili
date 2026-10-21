@@ -37,7 +37,7 @@
  * و دسترسی File Manager را محدود نگه دارید. فایل‌های .sql و .sample.php
  * به‌صورت پیش‌فرض توسط .htaccess از دسترسی عمومی مسدود هستند.
  *
- * نگارش: 009.2.5.1 — مستندات نصب: Docs/06-install-deploy.md
+ * نگارش: 010.2.5.2 — مستندات نصب: Docs/06-install-deploy.md
  */
 return [
     'db' => [
