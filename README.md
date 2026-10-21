@@ -2,7 +2,7 @@
 
 وب‌سایت شخصی و پورتفولیوی **میر خلیلی**، طراح گرافیک و هویت بصری — سبک **مینیمال تایپوگرافیک سوئیسی**، کاملاً **فارسی و راست‌به‌چپ (RTL)**.
 
-> **نگارش جاری: 005.2.2.0** (طرح QAVNS) — تاریخچه: [`Docs/CHANGELOG.md`](Docs/CHANGELOG.md) · قواعد نگارش‌گذاری: [`Docs/VERSIONING.md`](Docs/VERSIONING.md) · مستندات کامل: [`Docs/README.md`](Docs/README.md)
+> **نگارش جاری: 006.2.2.1** (طرح QAVNS) — تاریخچه: [`Docs/CHANGELOG.md`](Docs/CHANGELOG.md) · قواعد نگارش‌گذاری: [`Docs/VERSIONING.md`](Docs/VERSIONING.md) · مستندات کامل: [`Docs/README.md`](Docs/README.md)
 >
 > **این ریپو اکنون تک‌نسخه‌ای CMS است.** ریشهٔ ریپو دقیقاً محتوای `public_html` هاست است — بدون پوشهٔ واسط `cpanel-site/` و بدون نسخهٔ استاتیک Astro.
 
@@ -87,7 +87,7 @@ npm run build:cms-css
 - رمز ادمین با `password_hash` (bcrypt) — هرگز متن خام ذخیره نمی‌شود
 - همهٔ کوئری‌ها PDO prepared (ضد SQL injection) + `htmlspecialchars` (ضد XSS) + CSRF
 - آپلود فقط تصویر واقعی (`getimagesize`)، نام تصادفی، و `.htaccess` ضد اجرا در `uploads/`
-- `inc/` و فایل‌های `.sql/.md/.sample.php` از بیرون مسدودند (`Require all denied`)
+- `inc/` و `admin/inc/` و فایل‌های `.sql/.md/.sample.php` از بیرون مسدودند (`Require all denied`)
 - فشرده‌سازی و هدرهای `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy` + اجبار HTTPS
 
 توصیه‌های پس از نصب: رمز ۱۲+ کاراکتری، AutoSSL فعال، پشتیبان هفتگی. جزئیات: [`Docs/07-security.md`](Docs/07-security.md)
@@ -103,7 +103,7 @@ npm run build:cms-css
 
 شناسه: `e0RSN.G.FF.CCC` — سه رقم با پیش‌صفر برای RSN. تاریخچه و آیین نشر در [`Docs/VERSIONING.md`](Docs/VERSIONING.md).
 
-- نگارش جاری `005.2.2.0` — فقط-قابلیت (حذف `install.php` و تثبیت CMS به‌عنوان تنها نسخه)
+- نگارش جاری `006.2.2.1` — فقط-تصحیح (افزودن `.htaccess` ریشه و رفع مسدودبودن مسیرهای تمیز)
 - پس از هر نشر، محتوای آن نگارش هرگز تغییر نمی‌کند؛ هر تغییری در نگارش بعدی.
 
 ## مجوز و تماس

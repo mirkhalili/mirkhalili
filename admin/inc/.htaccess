@@ -1,0 +1,2 @@
+# Internal admin includes must never be requested directly.
+Require all denied
