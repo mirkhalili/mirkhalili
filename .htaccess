@@ -14,6 +14,10 @@ DirectoryIndex index.php
   RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L,NE]
 
+  # Backward-compatible entry points for the admin pages previously shared at site root.
+  # Each target retains its own login, role, and CSRF checks.
+  RewriteRule ^(categories|projects|resume|settings|messages)\.php$ admin/$1.php [QSA,L]
+
   # Keep the public URLs extension-free.
   RewriteRule ^sitemap\.xml$ sitemap.php [L]
   RewriteRule ^robots\.txt$ robots.php [L]
