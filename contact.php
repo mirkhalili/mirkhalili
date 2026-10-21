@@ -4,6 +4,9 @@ require_once __DIR__ . '/inc/db.php';
 require_once __DIR__ . '/inc/helpers.php';
 require_once __DIR__ . '/inc/data.php';
 
+// Start the session before header.php emits HTML, so the CSRF cookie is sent with headers.
+csrf_token();
+
 $ok = false;
 $error = '';
 $types = ['هویت بصری', 'لوگو', 'پوستر و بنر', 'کتاب و نشر', 'کارت ویزیت', 'بسته‌بندی', 'تایپوگرافی', 'سایر'];
